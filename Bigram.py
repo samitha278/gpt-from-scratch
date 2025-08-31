@@ -60,13 +60,13 @@ class BigramLM(nn.Module):
         
     def forward(self,index,target=None):
         
-        logits = self.token_emb_table[index]
+        logits = self.token_emb_table(index)
         
         if target is None:
             loss = None
         else:
             B,T,C = logits.shape
-            loss = F.cross_entropy(logits.view(-1,C),target)
+            loss = F.cross_entropy(logits.view(-1,C),target.view(-1))
             
         return logits , loss
     
@@ -107,15 +107,25 @@ for i in range(max_iter):
     
     
     if i% (max_iter/10) == 0:
-        print(f'{i/{max_iter}  {loss}}')
+        print(f'{i}/{max_iter}  {loss}')
     
     
     
-    
-    
+# first run output
+"""
+0/10000  4.769690036773682
+1000/10000  3.861417055130005
+2000/10000  3.132174015045166
+3000/10000  2.8828563690185547
+4000/10000  2.784301519393921
+5000/10000  2.471895217895508
+6000/10000  2.762051820755005
+7000/10000  2.4801313877105713
+8000/10000  2.5372257232666016
+9000/10000  2.5602262020111084
+"""
 
 
 
-    
-    
+
    
