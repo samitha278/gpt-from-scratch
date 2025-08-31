@@ -7,6 +7,8 @@ import torch.nn.functional as F
 # hyperpapameters 
 batch_size = 32
 block_size = 8
+learning_rate = 0.001
+max_iter = 10000
 
 
 
@@ -18,17 +20,14 @@ with open("data/input.txt",'r',encoding='utf-8') as f:
 chars = sorted(list(set(text)))
 vocab_size = len(chars)
 
-
 stoi = {s:i for i,s in enumerate(chars)}
 itos = {i:s for i,s in enumerate(chars)}
 encode = lambda s: [stoi[ch] for ch in s]
 decode = lambda w: ''.join([itos[i] for i in w])
 
 
-
 # text mapping
 data = torch.tensor(encode(text) , dtype=torch.long)
-
 
 # split dataset train/val
 n = int(0.9 * len(data))
@@ -40,9 +39,7 @@ val = data[n:]
 def get_batch(split):
     
     data = train if split == "train" else val
-    
     n = len(data)
-    
     ix = torch.randint(n - block_size , (batch_size,))
     
     x = torch.stack([data[i:i+block_size] for i in ix])
@@ -51,11 +48,9 @@ def get_batch(split):
     return x,y
 
 
-
-
+#-----------------------------------------------------------------
 
 # Bigram Language Model
-
 class BigramLM(nn.Module):
     
     def __init__(self,vocab_size):
@@ -65,7 +60,6 @@ class BigramLM(nn.Module):
         
     def forward(self,index,target=None):
         
-        
         logits = self.token_emb_table[index]
         
         if target is None:
@@ -74,9 +68,7 @@ class BigramLM(nn.Module):
             B,T,C = logits.shape
             loss = F.cross_entropy(logits.view(-1,C),target)
             
-            
         return logits , loss
-    
     
     
     def generate(self,index,max_token):
@@ -86,46 +78,44 @@ class BigramLM(nn.Module):
             logits = logits[:,-1,:]
             
             probs = F.softmax(logits, dim=-1)
-            
             next_index = torch.multinomial(probs,1)
             
             index = torch.cat((index,next_index),dim = 1)
             
         return index
     
+#------------------------------------------------------------------  
+
+
+model = BigramLM(vocab_size)
+
+# create a PyTorch optimizer
+optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+
+
+
+for i in range(max_iter):
+    
+    xb,yb = get_batch('train')
+    
+    # evaluate model
+    logits , loss = model(xb,yb)
+    
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
     
     
+    if i% (max_iter/10) == 0:
+        print(f'{i/{max_iter}  {loss}}')
+    
+    
+    
+    
+    
+
+
 
     
     
    
-        
-        
-        
-            
-        
-        
-        
-    
-    
-    
-    
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-# get batch
-
-
-
