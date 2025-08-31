@@ -84,48 +84,39 @@ class BigramLM(nn.Module):
             
         return index
     
+    
+    
+    def train(self):
+        
+        # create a PyTorch optimizer
+        optimizer = torch.optim.AdamW(self.parameters(), lr=learning_rate)
+
+        for i in range(max_iter):
+            
+            xb,yb = get_batch('train')
+            
+            # evaluate model
+            logits , loss = model(xb,yb)
+            
+            optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            optimizer.step()
+            
+            
+            if i% (max_iter/10) == 0:
+                print(f'{i}/{max_iter}  {loss}')
+        
+    
 #------------------------------------------------------------------  
 
 
 model = BigramLM(vocab_size)
 
-# create a PyTorch optimizer
-optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+model.train()
+    
 
 
-
-for i in range(max_iter):
-    
-    xb,yb = get_batch('train')
-    
-    # evaluate model
-    logits , loss = model(xb,yb)
-    
-    optimizer.zero_grad(set_to_none=True)
-    loss.backward()
-    optimizer.step()
-    
-    
-    if i% (max_iter/10) == 0:
-        print(f'{i}/{max_iter}  {loss}')
-    
-    
-    
-# first run output
-"""
-0/10000  4.769690036773682
-1000/10000  3.861417055130005
-2000/10000  3.132174015045166
-3000/10000  2.8828563690185547
-4000/10000  2.784301519393921
-5000/10000  2.471895217895508
-6000/10000  2.762051820755005
-7000/10000  2.4801313877105713
-8000/10000  2.5372257232666016
-9000/10000  2.5602262020111084
-"""
-
-
-
-
-   
+# genarate from the model 
+context = torch.zeros((1,1),dtype=torch.long)
+print(decode(model.generate(context,max_token=100)[0].tolist()))
+       
