@@ -54,6 +54,7 @@ def get_batch(split):
 
 
 
+# Bigram Language Model
 
 class BigramLM(nn.Module):
     
@@ -78,9 +79,29 @@ class BigramLM(nn.Module):
     
     
     
-    def generate(self):
+    def generate(self,index,max_token):
         
-        pass
+        for _ in range(max_token):
+            logits , loss = self(index)
+            logits = logits[:,-1,:]
+            
+            probs = F.softmax(logits, dim=-1)
+            
+            next_index = torch.multinomial(probs,1)
+            
+            index = torch.cat((index,next_index),dim = 1)
+            
+        return index
+    
+    
+    
+
+    
+    
+   
+        
+        
+        
             
         
         
