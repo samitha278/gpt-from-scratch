@@ -5,8 +5,10 @@ import torch.nn.functional as F
 
 # hyperparameters
 batch_size = 32
-block_size = 8
+block_size = 64
 eval_iters = 10000
+n_embd = 128
+
 
 
 with open('data/imput.txt', 'r') as f:
@@ -45,12 +47,34 @@ def get_batch(split):
 
 
 
+
+
+
+
 # ----------------------------------------------------------
 
 class transformerDecoder(nn.Module):
     
     def __init__(self):
         super().__init__()
+        
+        self.embd_table = nn.Embedding(vocab_size,n_embd)
+        self.pos_embd_table = nn.Embedding(block_size,n_embd)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
 # ----------------------------------------------------------
