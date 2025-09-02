@@ -60,6 +60,26 @@ class transformerDecoder(nn.Module):
         
         self.embd_table = nn.Embedding(vocab_size,n_embd)
         self.pos_embd_table = nn.Embedding(block_size,n_embd)
+        self.lm_head = nn.Linear(n_embd,vocab_size)
+        
+        
+        
+    def forward(self,input, targets = None):
+        
+        B,T = input.shape
+        
+        token_embd = self.embd_table(input)
+        pos_embd = self.pos_embd_table(torch.arange(T))
+        
+        x = token_embd+pos_embd
+        
+        logits = self.lm_head(x)
+        
+        
+        
+        
+        
+        
         
         
         
