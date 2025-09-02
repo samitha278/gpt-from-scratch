@@ -8,6 +8,7 @@ batch_size = 32
 block_size = 64
 eval_iters = 10000
 n_embd = 128
+head_size = 16
 
 
 
@@ -52,6 +53,20 @@ def get_batch(split):
 
 
 # ----------------------------------------------------------
+class selfAttentionHead(nn.Module):
+    
+    
+    def __init__(self):
+        super().__init__()
+        self.key = nn.Linear(n_embd, head_size, bias=False)
+        self.query = nn.Linear(n_embd, head_size, bias=False)
+        self.value = nn.Linear(n_embd, head_size, bias=False)
+        
+    def forward():
+        pass 
+        
+        
+        
 
 class transformerDecoder(nn.Module):
     
@@ -74,6 +89,18 @@ class transformerDecoder(nn.Module):
         x = token_embd+pos_embd
         
         logits = self.lm_head(x)
+        
+        
+        
+        
+        
+    def generate():
+        pass
+        
+        
+    def train():
+        
+        pass
         
         
         
