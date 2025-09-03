@@ -47,7 +47,7 @@ nchee
 *Note: Output quality is limited due to the simple bigram approach*
 
 ### Step 2: Single Self-Attention Head
-**File:** `transformer_decoder.py`
+**File:** `single_attention.py`
 
 Added a single self-attention mechanism to improve context understanding.
 
