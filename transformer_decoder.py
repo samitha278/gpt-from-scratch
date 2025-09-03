@@ -8,11 +8,13 @@ batch_size = 32
 block_size = 64
 eval_iters = 10000
 n_embd = 128
-head_size = 16
+head_size = n_embd
+max_iter  = 10000
+learning_rate = 1e-2
 
 
 
-with open('data/imput.txt', 'r') as f:
+with open('data/input.txt', 'r') as f:
     text = f.read()
     
       
@@ -35,14 +37,16 @@ val = data[n:]
 
 
 
+
+# minibatch
 def get_batch(split):
     
-    data = train if split=='train' else val
+    data = train if split == "train" else val
+    n = len(data)
+    ix = torch.randint(n - block_size , (batch_size,))
     
-    ix = torch.randint(len(data)-block_size,(batch_size,))
-    
-    x = torch.tensor([data[i:i+block_size] for i in ix]) 
-    y = torch.tensor([data[i+1:i+1+block_size] for i in ix])
+    x = torch.stack([data[i:i+block_size] for i in ix])
+    y = torch.stack([data[i+1:i+block_size+1] for i in ix])
     
     return x,y
 
@@ -56,14 +60,32 @@ def get_batch(split):
 class selfAttentionHead(nn.Module):
     
     
-    def __init__(self):
+    def __init__(self,head_size):
         super().__init__()
         self.key = nn.Linear(n_embd, head_size, bias=False)
         self.query = nn.Linear(n_embd, head_size, bias=False)
         self.value = nn.Linear(n_embd, head_size, bias=False)
+        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
         
-    def forward():
-        pass 
+        
+    def forward(self,x):
+        
+        B,T,C = x.shape
+        
+        key = self.key(x)
+        query = self.query(x)
+        
+        weight = query @ key.transpose(-2,-1) * C**-0.5
+        weight = weight.masked_fill(self.tril[:T,:T]==0,float('-inf'))
+        weight = F.softmax(weight,dim=-1)
+        
+        value = self.value(x)
+        
+        out = weight @ value
+        
+        return out
+        
+        
         
         
         
@@ -75,7 +97,11 @@ class transformerDecoder(nn.Module):
         
         self.embd_table = nn.Embedding(vocab_size,n_embd)
         self.pos_embd_table = nn.Embedding(block_size,n_embd)
+        
+        self.sa_head = selfAttentionHead(head_size)
+        
         self.lm_head = nn.Linear(n_embd,vocab_size)
+        
         
         
         
@@ -87,26 +113,57 @@ class transformerDecoder(nn.Module):
         pos_embd = self.pos_embd_table(torch.arange(T))
         
         x = token_embd+pos_embd
+        x = self.sa_head(x)
         
         logits = self.lm_head(x)
         
         
-        
-        
-        
-    def generate():
-        pass
-        
-        
-    def train():
-        
-        pass
-        
+        if targets is None:
+            loss = None
+        else:
+            B,T,C = logits.shape
+            loss = F.cross_entropy(logits.view(B*T,C),targets.view(-1))
+            
+        return logits , loss
         
         
         
         
         
+    def generate(self,input,max_token):
+        
+        for _ in range(max_token):
+            input_cond = input[:,-block_size:]
+            logits , loss = self(input_cond)
+            logits = logits[:,-1,:]
+            
+            probs = F.softmax(logits, dim=-1)
+            next_index = torch.multinomial(probs,1)
+            
+            input = torch.cat((input,next_index),dim = 1)
+            
+        return input
+        
+        
+    def train(self):
+        
+        # create a PyTorch optimizer
+        optimizer = torch.optim.AdamW(self.parameters(), lr=learning_rate)
+
+        for i in range(max_iter):
+            
+            xb,yb = get_batch('train')
+            
+            # evaluate model
+            logits , loss = model(xb,yb)
+            
+            optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            optimizer.step()
+            
+            
+            if i% (max_iter/10) == 0:
+                print(f'{i}/{max_iter}  {loss}')
         
         
         
@@ -116,18 +173,13 @@ class transformerDecoder(nn.Module):
         
         
         
-        
-        
-        
-        
+    
         
         
         
         
 # ----------------------------------------------------------
 
-
-model = transformerDecoder()
 
 
 
@@ -149,10 +201,22 @@ def estimate_loss():
     
     
     
+    
+    
+    
+    
+    
+# Train model    
+model = transformerDecoder()
+model.train()
 
 
+    
 
 
+# genarate from the model 
+context = torch.zeros((1,1),dtype=torch.long)
+print(decode(model.generate(context,max_token=100)[0].tolist()))
 
 
 
