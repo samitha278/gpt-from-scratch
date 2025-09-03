@@ -56,5 +56,8 @@ Moghend me fr tousee thesend y-                                          <br/>
 
 
 
+## References
+
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 
 
