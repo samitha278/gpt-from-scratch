@@ -81,23 +81,9 @@ Pa'd Golle ave ye X
 
 
 
-### Installation
-```bash
-git clone <your-repo-url>
-cd gpt-from-scratch
-pip install torch numpy
-```
 
-### Usage
-```bash
-# Run bigram model
-python Bigram.py
 
-# Run transformer with single attention head
-python transformer_decoder.py
-```
-
-## 📚 References
+## References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - The original Transformer paper
 - OpenAI GPT-2/3 architectures
