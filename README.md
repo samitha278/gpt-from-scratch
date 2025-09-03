@@ -5,13 +5,10 @@ Implementing a Generatively Pretrained Transformer (GPT) from scratch in PyTorch
 
 
 
-#### Transformer Decoder
-Next....  
 
 
 
-
-
+#### Step 1
 ##### Bigram Language Model (Bigram.py)
 ###### Outout:
 0/10000  4.5462846755981445    <br/>
@@ -39,6 +36,23 @@ nchee                               <br/>
 
 
 
+#### Step 2
+##### Add one self attention head (transformer_decoder.py)
+###### Outout:
+0/10000  4.152102470397949       <br/>
+1000/10000  2.5086829662323      <br/>
+2000/10000  2.4729814529418945  <br/>
+3000/10000  2.542850971221924  <br/>
+4000/10000  2.482938289642334  <br/>
+5000/10000  2.5032737255096436  <br/>
+6000/10000  2.4475369453430176  <br/>
+7000/10000  2.462331771850586  <br/>
+8000/10000  2.487802505493164  <br/>
+9000/10000  2.4615895748138428  <br/>
+
+###### Generate 100 tokens:
+F y w oteaco hot'thay it imeal-damig her: ndaus or sll, swin odr ut:     <br/>
+Moghend me fr tousee thesend y-                                          <br/>
 
 
 
