@@ -1,63 +1,104 @@
-# Generatively Pretrained Transformer from scratch
+# GPT from Scratch
 
-Implementing a Generatively Pretrained Transformer (GPT) from scratch in PyTorch, inspired by Attention is All You Need paper and OpenAI’s GPT-2/3. Covers the full pipeline of autoregressive language modeling, training, sampling, and evaluation.
+A PyTorch implementation of a Generatively Pretrained Transformer (GPT) built from the ground up, inspired by the "Attention is All You Need" paper and OpenAI's GPT-2/3 architecture.
+
+## Overview
+
+This project implements the complete pipeline for autoregressive language modeling, including:
+- Model architecture implementation
+- Training procedures
+- Text generation/sampling
+- Model evaluation
+
+## Implementation Progress
+
+### Step 1: Bigram Language Model
+**File:** `Bigram.py`
+
+A simple bigram model serving as the foundation before adding transformer components.
+
+**Training Results:**
+```
+Step    Loss
+0       4.546
+1000    3.676
+2000    3.054
+3000    2.730
+4000    2.556
+5000    2.520
+6000    2.589
+7000    2.403
+8000    2.335
+9000    2.460
+```
+
+**Sample Generation (100 tokens):**
+```
+Fours thid J ous?          
+Bouelllllighapan ITh.      
+I s.                       
+LI:                        
+The;                       
+                           
+Fary be be bu uneDortanethethe      
+Foan tha                            
+nchee                               
+```
+*Note: Output quality is limited due to the simple bigram approach*
+
+### Step 2: Single Self-Attention Head
+**File:** `transformer_decoder.py`
+
+Added a single self-attention mechanism to improve context understanding.
+
+**Training Results:**
+```
+Step    Loss
+0       4.210
+1000    2.466
+2000    2.476
+3000    2.479
+4000    2.425
+5000    2.337
+6000    2.290
+7000    2.260
+8000    2.311
+9000    2.239
+```
+
+**Sample Generation (100 tokens):**
+```
+HAMTER:                                 
+K maz: 
+Bot I'lte se we my, 'd die cenotirh,
+I'n:
+Met,
+Shave malke sherd.
+Pa'd Golle ave ye X
+```
+*Improved coherence with attention mechanism*
 
 
 
 
+### Installation
+```bash
+git clone <your-repo-url>
+cd gpt-from-scratch
+pip install torch numpy
+```
 
+### Usage
+```bash
+# Run bigram model
+python Bigram.py
 
+# Run transformer with single attention head
+python transformer_decoder.py
+```
 
-#### Step 1
-##### Bigram Language Model (Bigram.py)
-###### Outout:
-0/10000  4.5462846755981445    <br/>
-1000/10000  3.6757185459136963 <br/>
-2000/10000  3.053956985473633  <br/>
-3000/10000  2.7299282550811768  <br/>
-4000/10000  2.556368827819824   <br/>
-5000/10000  2.520214796066284   <br/>
-6000/10000  2.5889151096343994 <br/>
-7000/10000  2.4034910202026367 <br/>
-8000/10000  2.3354899883270264 <br/>
-9000/10000  2.4603657722473145 <br/>
+## 📚 References
 
-
-###### Generate 100 tokens: (kinda garbage, need to improve this model)
-Fours thid J ous?          <br/> 
-Bouelllllighapan ITh.      <br/>
-I s.                       <br/>
-LI:                        <br/>
-The;                       <br/>
-                           <br/>
-Fary be be bu uneDortanethethe      <br/>
-Foan tha                            <br/>
-nchee                               <br/>
-
-
-
-#### Step 2
-##### Add one self attention head (transformer_decoder.py)
-###### Outout:
-0/10000  4.152102470397949       <br/>
-1000/10000  2.5086829662323      <br/>
-2000/10000  2.4729814529418945  <br/>
-3000/10000  2.542850971221924  <br/>
-4000/10000  2.482938289642334  <br/>
-5000/10000  2.5032737255096436  <br/>
-6000/10000  2.4475369453430176  <br/>
-7000/10000  2.462331771850586  <br/>
-8000/10000  2.487802505493164  <br/>
-9000/10000  2.4615895748138428  <br/>
-
-###### Generate 100 tokens:
-F y w oteaco hot'thay it imeal-damig her: ndaus or sll, swin odr ut:     <br/>
-Moghend me fr tousee thesend y-                                          <br/>
-
-
-
-## References
-
-- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
-
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - The original Transformer paper
+- OpenAI GPT-2/3 architectures
 
