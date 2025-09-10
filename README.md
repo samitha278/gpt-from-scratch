@@ -80,7 +80,7 @@ Pa'd Golle ave ye X
 
 
 
-### Step 2: Multi-Head Attention Mechanism
+### Step 3: Multi-Head Attention Mechanism
 **File:** `multi_head_attn.py`
 
 Adding a Multi-Head Attention Mechanism to improve context understanding further. ongoing...
