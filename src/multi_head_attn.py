@@ -60,14 +60,40 @@ def get_batch(split):
 
 
 # -------------------------------------------------------------
- 
- 
-     
+    
 
+class Head(nn.Module):
+    
+    
+    def __init__(self,head_size):
+        super().__init__()
 
-
-
-
-
+        self.key = nn.Linear(n_embd,head_size, bias = False)
+        self.query = nn.Linear(n_embd,head_size,bias = False)
+        
+        self.value = nn.Linear(n_embd,head_size, bias = False)
+        
+        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
+        
+        
+    def forward(self,x):
+        
+        B,T,C = x.shape
+        
+        key = self.key(x)
+        query = self.query(x)
+        
+        weight = query @ key.transpose(-2,-1) * C**-0.5
+        weight = weight.masked_fill(self.tril[:T,:T]==0,float('-inf'))
+        weight = F.softmax(weight,dim=-1)
+        
+        value = self.value(x)
+        
+        out = weight @ value
+        
+        return out
+        
+        
+        
 
 
