@@ -166,18 +166,7 @@ class transformerDecoder(nn.Module):
                 print(f'{i}/{max_iter}  {loss}')
         
         
-        
-        
-        
-        
-        
-        
-        
-    
-        
-        
-        
-        
+       
 # ----------------------------------------------------------
 
 
