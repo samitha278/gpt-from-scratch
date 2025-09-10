@@ -15,14 +15,17 @@ lr = 1e-3
 
 
 
-
+#text read
 with open('data.input.txt', 'r') as f:
     text = f.read()
     
-    
+
+#get characters from input.txt
 chars = sorted(list(set(text)))
 vocab_size = len(chars)
 
+
+#encoding and decoding
 stoi = {s:i for i,s in enumerate(chars)}
 itos = {i:s for i,s in enumerate(chars)}
 
@@ -31,6 +34,35 @@ decode = lambda l: ''.join([itos[i] for i in l])
 
 
 
+# encode text
+data = encode(text)
+
+# train / val split
+n = int(0.9*len(data))
+train_data = data[:n]
+val_data = data[n:]
+
+
+
+# create mini batch
+def get_batch(split):
+    
+    data = train_data if split=='train' else val_data
+    
+    idx = torch.randint(len(data)-block_size , (block_size,))
+    
+    x = torch.tensor([data[i:i+block_size] for i in idx])
+    y = torch.tensor([data[i+1:block_size+1+i] for i in idx])
+    
+    return x,y
+
+
+
+
+# -------------------------------------------------------------
+ 
+ 
+     
 
 
 
