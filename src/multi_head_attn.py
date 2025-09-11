@@ -9,6 +9,7 @@ block_size = 8
 batch_size = 32
 n_embd = 64
 head_size = 16
+num_heads = 6
 eval_iter = 10000
 max_iter = 10000
 lr = 1e-3
@@ -16,7 +17,7 @@ lr = 1e-3
 
 
 #text read
-with open('data.input.txt', 'r') as f:
+with open('data/input.txt', 'r') as f:
     text = f.read()
     
 
@@ -110,3 +111,90 @@ class MultiHead(nn.Module):
         self.out = self.projection(self.out)
         
         return self.out
+    
+    
+    
+    
+class GPT(nn.Module):
+    
+    def __init__(self):
+        super().__init__()
+        
+        self.embd_table = nn.Embedding(vocab_size,n_embd)
+        self.pos_embd_table = nn.Embedding(block_size,n_embd)
+        
+        self.headS = MultiHead(num_heads,head_size)
+        
+        self.lm_head = nn.Linear(n_embd,vocab_size)
+        
+        
+        
+        
+    def forward(self,input, targets = None):
+        
+        B,T = input.shape
+        
+        token_embd = self.embd_table(input)
+        pos_embd = self.pos_embd_table(torch.arange(T))
+        
+        x = token_embd+pos_embd
+        x = self.headS(x)
+        
+        logits = self.lm_head(x)
+        
+        
+        if targets is None:
+            loss = None
+        else:
+            B,T,C = logits.shape
+            loss = F.cross_entropy(logits.view(B*T,C),targets.view(-1))
+            
+        return logits , loss
+        
+        
+        
+        
+        
+    def generate(self,input,max_token):
+        
+        for _ in range(max_token):
+            input_cond = input[:,-block_size:]
+            logits , loss = self(input_cond)
+            logits = logits[:,-1,:]
+            
+            probs = F.softmax(logits, dim=-1)
+            next_index = torch.multinomial(probs,1)
+            
+            input = torch.cat((input,next_index),dim = 1)
+            
+        return input
+        
+        
+    def train(self):
+        
+        # create a PyTorch optimizer
+        optimizer = torch.optim.AdamW(self.parameters(), lr=lr)
+
+        for i in range(max_iter):
+            
+            xb,yb = get_batch('train')
+            
+            # evaluate model
+            logits , loss = self.model(xb,yb)
+            
+            optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            optimizer.step()
+            
+            
+            if i% (max_iter/10) == 0:
+                print(f'{i}/{max_iter}  {loss}')
+        
+        
+       
+# ----------------------------------------------------------
+
+
+
+model = GPT()
+model.train()
