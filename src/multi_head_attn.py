@@ -115,7 +115,7 @@ class MultiHead(nn.Module):
     
     
     
-class GPT(nn.Module):
+class Model(nn.Module):
     
     def __init__(self):
         super().__init__()
@@ -180,7 +180,7 @@ class GPT(nn.Module):
             xb,yb = get_batch('train')
             
             # evaluate model
-            logits , loss = self.model(xb,yb)
+            logits , loss = model(xb,yb)
             
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
@@ -196,5 +196,11 @@ class GPT(nn.Module):
 
 
 
-model = GPT()
+model = Model()
 model.train()
+
+
+
+# genarate from the model 
+context = torch.zeros((1,1),dtype=torch.long)
+print(decode(model.generate(context,max_token=100)[0].tolist()))
