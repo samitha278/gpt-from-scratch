@@ -90,7 +90,29 @@ Pa'd Golle ave ye X
 ### Step 3: Multi-Head Attention Mechanism
 **File:** `multi_head_attn.py`
 
-Adding a Multi-Head Attention Mechanism to improve context understanding further. ongoing...
+Adding a Multi-Head Attention Mechanism to improve context understanding further.
+
+**Training Results:**
+```
+0/10000  4.186285018920898
+1000/10000  2.49324107170105
+2000/10000  2.2129158973693848
+3000/10000  2.2964208126068115
+4000/10000  2.1379356384277344
+5000/10000  1.9161547422409058
+6000/10000  2.146939277648926
+7000/10000  2.1689884662628174
+8000/10000  2.5390045642852783
+9000/10000  2.099254608154297
+```
+
+**Sample Generation (100 tokens):**
+```
+As youblead, my dimy obelcersing,
+Hall in thous ti wing meged Cad ticeds yould with I thath dy me my
+```
+
+*Improved with multi head attention mechanism*
 
 
 ## References
