@@ -8,7 +8,7 @@ batch_size = 32
 block_size = 64
 eval_iters = 10000
 n_embd = 128
-head_size = n_embd
+head_size = 16
 max_iter  = 10000
 learning_rate = 1e-2
 
@@ -100,7 +100,7 @@ class transformerDecoder(nn.Module):
         
         self.sa_head = selfAttentionHead(head_size)
         
-        self.lm_head = nn.Linear(n_embd,vocab_size)
+        self.lm_head = nn.Linear(head_size,vocab_size)
         
         
         
