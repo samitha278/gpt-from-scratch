@@ -10,6 +10,13 @@ This project implements the complete pipeline for autoregressive language modeli
 - Text generation/sampling
 - Model evaluation
 
+#### Self Attention (simple explanation)
+```
+Key = resume ("Here are my skills and qualities")
+Query = job description ("I'm looking for someone with these skills")
+dot(Query,Key) = how well the resume matches the job description
+```
+
 ## Implementation Progress
 
 ### Step 1: Bigram Language Model
