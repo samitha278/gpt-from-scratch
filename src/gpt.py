@@ -142,11 +142,15 @@ class Block(nn.Module):
         
         self.heads = MultiHead(num_heads,head_size)
         self.mlp = MLP(n_embd)
+        self.layer_norm1 = nn.LayerNorm(n_embd)
+        self.layer_norm2 = nn.LayerNorm(n_embd)
         
     
     def forward(self,x):
-        out = self.heads(x) + x  # residual conn
-        out = self.mlp(out) + out  # residual conn
+        
+        # added layer norm post
+        out = self.layer_norm1(self.heads(x)) + x  # residual conn
+        out = self.layer_norm2(self.mlp(out)) + out  # residual conn
         
         return out 
         
