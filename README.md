@@ -340,6 +340,38 @@ From, my
 
 
 
+### Step 10: Dropouts
+**File:** `gpt.py`
+
+Added Dropouts end of the each of sub layers.
+
+**Training Results:**
+```
+0/10000  4.3352370262146
+1000/10000  2.6242640018463135
+2000/10000  2.322222948074341
+3000/10000  2.5242919921875
+4000/10000  2.3064157962799072
+5000/10000  2.2172739505767822
+6000/10000  2.1584432125091553
+7000/10000  2.423521041870117
+8000/10000  2.1975138187408447
+9000/10000  2.3287415504455566
+10000/10000  2.5118088722229004
+```
+
+**Sample Generation (100 tokens):**
+```
+Wo-eve  qoy.
+ Exgue their ling thempelank.
+
+KINY VAETER:
+Ho it spein's werepdeen that of agood, But 
+```
+
+*effective technique for regularization and preventing the co-adaptation of neurons*
+
+
 
 
 ## References
@@ -348,5 +380,6 @@ From, my
 - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 - [Layer Normalization](https://arxiv.org/abs/1607.06450)
 - [On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745)
+- [Improving neural networks by preventingco-adaptation of feature detectors](https://arxiv.org/abs/1207.0580)
 - OpenAI GPT-2/3 architectures
 
