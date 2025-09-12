@@ -252,10 +252,19 @@ MICI serves
 
 
 
-### Step 8: Post-Layer Normalization
+
+## Post-LN vs Pre-LN
+
+<p align="center">
+  <img src="images/ln.png" alt="Neural architecture" width="400"/>
+</p>
+
+
+
+### Step 8: Post-Layer Normalization (original-designed)
 **File:** `gpt.py`
 
-Added LayerNorms after Multi head and after MLP.
+Added LayerNorms after both Multi head and MLP.
 
 **Training Results:**
 ```
@@ -286,8 +295,47 @@ ghe
 
 
 
+
+
+### Step 9: Pre-Layer Normalization
+**File:** `gpt.py`
+
+Added LayerNorms before both Multi head and MLP.
+
+**Training Results:**
+```
+0/10000  4.459923267364502
+1000/10000  2.1904923915863037
+2000/10000  2.2503855228424072
+3000/10000  2.071443796157837
+4000/10000  2.065601110458374
+5000/10000  1.9764474630355835
+6000/10000  2.150885581970215
+7000/10000  2.163971424102783
+8000/10000  2.1968228816986084
+9000/10000  1.843940258026123
+10000/10000  1.844292163848877
+```
+
+**Sample Generation (100 tokens):**
+```
+Mence
+Buchils and straak scome.
+
+MENRY BTHARD:
+How, fittys', and your fidly, in beftend; wistreded, 
+```
+
+*accelerating and stabilizing training*
+
+
+
+
+
 ## References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - The original Transformer paper
+- [Layer Normalization](https://arxiv.org/abs/1607.06450)
+- [On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745)
 - OpenAI GPT-2/3 architectures
 
