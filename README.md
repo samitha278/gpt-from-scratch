@@ -148,6 +148,36 @@ Mly's'd why shri
 *Improved with mlp + multi head attention*
 
 
+### Step 5: Multi-Head Attention -> MLP
+**File:** `gpt.py`
+
+Added 3 Blocks (Multi head Attn + MLP).
+
+**Training Results:**
+```
+0/10000  4.158382415771484
+1000/10000  2.9269192218780518
+2000/10000  2.3666820526123047
+3000/10000  2.620711326599121
+4000/10000  2.367741584777832
+5000/10000  2.126526355743408
+6000/10000  2.201690912246704
+7000/10000  2.2551534175872803
+8000/10000  2.4167087078094482
+9000/10000  2.2175307273864746
+10000/10000  2.0515248775482178
+```
+
+**Sample Generation (100 tokens):**
+```
+Ford's low, dow's sts-biiterd hult brrivests your I swerest yom sa bestour
+Bet'll mubterefe is gests
+```
+
+*Improved by wrapping (multi head attention + mlp) with block*
+
+
+
 
 
 
