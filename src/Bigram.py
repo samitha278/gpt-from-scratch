@@ -89,14 +89,14 @@ class BigramLM(nn.Module):
     def train(self):
         
         # create a PyTorch optimizer
-        optimizer = torch.optim.AdamW(self.parameters(), lr=learning_rate)
+        optimizer = torch.optim.AdamW(self.parameters(), lr=lr)
 
         for i in range(max_iter):
             
             xb,yb = get_batch('train')
             
             # evaluate model
-            logits , loss = model(xb,yb)
+            logits , loss = self(xb,yb)
             
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
@@ -105,6 +105,8 @@ class BigramLM(nn.Module):
             
             if i% (max_iter/10) == 0:
                 print(f'{i}/{max_iter}  {loss}')
+            if i == max_iter-1:
+                print(f'{max_iter}/{max_iter}  {loss}')
         
     
 #------------------------------------------------------------------  

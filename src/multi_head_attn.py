@@ -114,6 +114,24 @@ class MultiHead(nn.Module):
     
     
     
+
+class MLP(nn.Module):
+    
+    def __init__(self,n_embd):
+        super().__init__()
+        
+        self.mlp = nn.Sequential(
+            nn.Linear(n_embd,n_embd),
+            nn.ReLU()
+        )
+
+    def forward(self,x):
+        
+        return self.mlp(x)
+        
+        
+        
+    
     
 class Model(nn.Module):
     
@@ -124,6 +142,8 @@ class Model(nn.Module):
         self.pos_embd_table = nn.Embedding(block_size,n_embd)
         
         self.headS = MultiHead(num_heads,head_size)
+        
+        self.mlp = MLP(n_embd)
         
         self.lm_head = nn.Linear(n_embd,vocab_size)
         
@@ -140,6 +160,8 @@ class Model(nn.Module):
         x = token_embd+pos_embd
         x = self.headS(x)
         
+        x = self.mlp(x)
+        
         logits = self.lm_head(x)
         
         
@@ -153,8 +175,35 @@ class Model(nn.Module):
         
         
         
+         
         
+    def train(self):
         
+        # create a PyTorch optimizer
+        optimizer = torch.optim.AdamW(self.parameters(), lr=lr)
+
+        for i in range(max_iter):
+            
+            xb,yb = get_batch('train')
+            
+            # evaluate model
+            logits , loss = self(xb,yb)
+            
+            optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            optimizer.step()
+            
+            
+            if i% (max_iter/10) == 0:
+                print(f'{i}/{max_iter}  {loss}')
+            if i == max_iter-1:
+                print(f'{max_iter}/{max_iter}  {loss}')
+            
+        
+                
+                
+                
+    
     def generate(self,input,max_token):
         
         for _ in range(max_token):
@@ -168,27 +217,6 @@ class Model(nn.Module):
             input = torch.cat((input,next_index),dim = 1)
             
         return input
-        
-        
-    def train(self):
-        
-        # create a PyTorch optimizer
-        optimizer = torch.optim.AdamW(self.parameters(), lr=lr)
-
-        for i in range(max_iter):
-            
-            xb,yb = get_batch('train')
-            
-            # evaluate model
-            logits , loss = model(xb,yb)
-            
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            optimizer.step()
-            
-            
-            if i% (max_iter/10) == 0:
-                print(f'{i}/{max_iter}  {loss}')
         
         
        
