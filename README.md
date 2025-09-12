@@ -115,6 +115,45 @@ Hall in thous ti wing meged Cad ticeds yould with I thath dy me my
 *Improved with multi head attention mechanism*
 
 
+
+### Step 4: Multi-Head Attention -> MLP
+**File:** `multi_head_attn.py`
+
+Added a MLP right after Multi-Head Attention to model to thinking from context understanding.
+
+**Training Results:**
+```
+0/10000  4.207912445068359
+1000/10000  2.381828546524048
+2000/10000  2.2483139038085938
+3000/10000  2.309636116027832
+4000/10000  2.297687292098999
+5000/10000  2.17193865776062
+6000/10000  1.8909931182861328
+7000/10000  1.9600961208343506
+8000/10000  2.1503922939300537
+9000/10000  1.7582848072052002
+10000/10000  2.167241334915161
+```
+
+**Sample Generation (100 tokens):**
+```
+Go thou nike,
+Seciting festan's teeess wardsteks asemp, hry is gid, ther.
+
+From be,
+Mly's'd why shri
+```
+
+*Improved with mlp + multi head attention*
+
+
+
+
+
+
+
+
 ## References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - The original Transformer paper
