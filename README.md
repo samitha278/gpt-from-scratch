@@ -372,6 +372,39 @@ Ho it spein's werepdeen that of agood, But
 *effective technique for regularization and preventing the co-adaptation of neurons*
 
 
+### Step 10: Deep NN
+**File:** `gpt.py`
+
+Incresed #hyperparameters.
+
+**Training Results:**
+```
+0/10000  4.264957427978516
+1000/10000  2.3860034942626953
+2000/10000  2.094944953918457
+3000/10000  2.1648499965667725
+4000/10000  2.200188636779785
+5000/10000  2.195688009262085
+6000/10000  2.0683956146240234
+7000/10000  1.9538644552230835
+8000/10000  1.9664744138717651
+9000/10000  1.9402655363082886
+10000/10000  1.988709568977356
+```
+
+**Sample Generation (100 tokens):**
+```
+Hop sk be all ba't,
+Hon you but: loeevedy:
+Sworb.
+
+LEENBECHIO:
+Why the chinhe, good His jay do fulg  
+```
+
+*deep neural network*
+
+
 
 
 ## References
