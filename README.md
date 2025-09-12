@@ -372,7 +372,7 @@ Ho it spein's werepdeen that of agood, But
 *effective technique for regularization and preventing the co-adaptation of neurons*
 
 
-### Step 10: Deep NN
+### Step 11: Deep NN
 **File:** `gpt.py`
 
 Incresed #hyperparameters.
@@ -402,9 +402,49 @@ LEENBECHIO:
 Why the chinhe, good His jay do fulg  
 ```
 
-*deep neural network*
+*deep neural network ~300K params*
 
 
+### Step 12: GPU
+**File:** `gpt.py`
+
+Model trained on T4 GPU.
+
+**Training Results:**
+```
+0/10000  4.360275745391846
+1000/10000  2.4701366424560547
+2000/10000  2.394174814224243
+3000/10000  2.253653049468994
+4000/10000  2.2769970893859863
+5000/10000  2.2080271244049072
+6000/10000  2.155518054962158
+7000/10000  2.076859951019287
+8000/10000  2.0508880615234375
+9000/10000  2.046293258666992
+10000/10000  2.072751760482788
+```
+
+**Sample Generation (100 tokens):**
+```
+Far you.
+
+DUCKE?
+SIO:
+Shat so bolich he is sort com of it a lam haplame
+Lard ray:
+A Gode callerZy a'  
+```
+
+*1208385 ~(1.2M) param model traied ~6mins*
+
+
+
+## Loss Curve - step 12
+
+<p align="center">
+  <img src="images/lcurve1.png" alt="Neural architecture" width="400"/>
+</p>
 
 
 ## References
