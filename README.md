@@ -215,6 +215,39 @@ He are her sheagh
 *DNN suffer from optimisation problems by residual conn gradients flow DNN vanishing/exploding*
 
 
+### Step 7: Deep MLP
+**File:** `gpt.py`
+
+Incresed size of MLP in Block.
+
+**Training Results:**
+```
+0/10000  4.628260135650635
+1000/10000  2.6013002395629883
+2000/10000  2.1020402908325195
+3000/10000  2.4611384868621826
+4000/10000  2.0678110122680664
+5000/10000  2.3793909549713135
+6000/10000  1.8049612045288086
+7000/10000  1.5897706747055054
+8000/10000  2.058210849761963
+9000/10000  2.1545569896698
+10000/10000  1.823158860206604
+```
+
+**Sample Generation (100 tokens):**
+```
+HAM:
+O't ject the goods!
+For our here is bestring of otill-son!
+You to borritue
+there.
+
+MICI serves
+```
+
+*More space to learning and thinking*
+
 
 
 
