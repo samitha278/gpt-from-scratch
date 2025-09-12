@@ -218,7 +218,7 @@ He are her sheagh
 ### Step 7: Deep MLP
 **File:** `gpt.py`
 
-Incresed size of MLP in Block.
+Increased size of MLP in Block.
 
 **Training Results:**
 ```
@@ -252,6 +252,36 @@ MICI serves
 
 
 
+### Step 8: Post-Layer Normalization
+**File:** `gpt.py`
+
+Added LayerNorms after Multi head and after MLP.
+
+**Training Results:**
+```
+0/10000  5.961869716644287
+1000/10000  2.4609148502349854
+2000/10000  2.1219823360443115
+3000/10000  2.359950304031372
+4000/10000  1.9748153686523438
+5000/10000  2.315810203552246
+6000/10000  2.2083234786987305
+7000/10000  1.6065560579299927
+8000/10000  1.825304627418518
+9000/10000  2.0711708068847656
+10000/10000  2.316119432449341
+```
+
+**Sample Generation (100 tokens):**
+```
+As dead;
+Where on, spak, thannothsfould think,
+The didects,
+Whose connoturn so portiencem Obroke
+ghe
+```
+
+*accelerating and stabilizing training*
 
 
 
