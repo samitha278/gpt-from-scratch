@@ -144,8 +144,8 @@ class Block(nn.Module):
         
     
     def forward(self,x):
-        out = self.heads(x)
-        out = self.mlp(out)
+        out = self.heads(x) + x  # residual conn
+        out = self.mlp(out) + out  # residual conn
         
         return out 
         
