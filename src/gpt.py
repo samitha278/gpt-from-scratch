@@ -13,6 +13,7 @@ head_size = n_embd // num_heads
 eval_iter = 10000
 max_iter = 10000
 lr = 1e-3
+dropout = 0.1
 
 
 
@@ -75,6 +76,8 @@ class SaHead(nn.Module):
         self.value = nn.Linear(n_embd,head_size, bias = False)
         
         self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
+
+        self.dropout = nn.Dropout(dropout)
         
         
     def forward(self,x):
@@ -91,6 +94,8 @@ class SaHead(nn.Module):
         value = self.value(x)
         
         out = weight @ value
+
+        out = self.dropout(out)    
         
         return out
         
@@ -102,6 +107,8 @@ class MultiHead(nn.Module):
         
         self.sa_heads = nn.ModuleList([SaHead(head_size) for i in range(num_heads)])
         self.projection = nn.Linear(num_heads * head_size , n_embd)
+
+        self.dropout = nn.Dropout(dropout)
         
         
         
@@ -109,6 +116,8 @@ class MultiHead(nn.Module):
         out = torch.cat([sa(x) for sa in self.sa_heads],dim = -1)
         
         out = self.projection(out)
+
+        out = self.dropout(out)
         
         return out
     
@@ -121,16 +130,19 @@ class MLP(nn.Module):
         super().__init__()
         
         self.mlp = nn.Sequential(
-            nn.Linear(n_embd , 4*n_embd),
+            nn.Linear(n_embd, 4 * n_embd),
             nn.ReLU(),
-            nn.Linear(4* n_embd,n_embd) # projection
+            nn.Linear(4 * n_embd,n_embd), # projection
+            nn.Dropout(dropout)
         )
 
+
     def forward(self,x):
-        
-        return self.mlp(x)
-        
-    
+
+        out = self.mlp(x)
+        return out
+
+ 
      
     
 class Block(nn.Module):
@@ -144,6 +156,8 @@ class Block(nn.Module):
         self.mlp = MLP(n_embd)
         self.layer_norm1 = nn.LayerNorm(n_embd)
         self.layer_norm2 = nn.LayerNorm(n_embd)
+
+        self.dropout = nn.Dropout(dropout)
         
     
     def forward(self,x):
@@ -151,8 +165,11 @@ class Block(nn.Module):
         # added pre layerNorms
         out = self.heads(self.layer_norm1(x)) + x  # residual conn
         out = self.mlp(self.layer_norm2(out)) + out  # residual conn
+
+
+        out = self.dropout(out)
         
-        return out 
+        return out
         
            
         
@@ -189,7 +206,7 @@ class GPTModel(nn.Module):
         
         x = token_embd+pos_embd
         
-        x = self.block(x)
+        x = self.block(x) 
         
         logits = self.lm_head(x)
         
