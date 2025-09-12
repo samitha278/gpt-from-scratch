@@ -121,8 +121,9 @@ class MLP(nn.Module):
         super().__init__()
         
         self.mlp = nn.Sequential(
-            nn.Linear(n_embd,n_embd),
-            nn.ReLU()
+            nn.Linear(n_embd , 4*n_embd),
+            nn.ReLU(),
+            nn.Linear(4* n_embd,n_embd) # projection
         )
 
     def forward(self,x):
