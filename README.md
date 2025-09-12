@@ -148,7 +148,7 @@ Mly's'd why shri
 *Improved with mlp + multi head attention*
 
 
-### Step 5: Multi-Head Attention -> MLP
+### Step 5: Block
 **File:** `gpt.py`
 
 Added 3 Blocks (Multi head Attn + MLP).
@@ -175,6 +175,38 @@ Bet'll mubterefe is gests
 ```
 
 *Improved by wrapping (multi head attention + mlp) with block*
+
+
+### Step 6: Residual Connections
+**File:** `gpt.py`
+
+Added residual connections.
+
+**Training Results:**
+```
+0/10000  4.778691291809082
+1000/10000  2.2697150707244873
+2000/10000  2.152113914489746
+3000/10000  2.1752171516418457
+4000/10000  2.4939568042755127
+5000/10000  2.146027088165283
+6000/10000  2.1327855587005615
+7000/10000  2.1346640586853027
+8000/10000  2.0998589992523193
+9000/10000  2.0526294708251953
+10000/10000  1.9960142374038696
+```
+
+**Sample Generation (100 tokens):**
+```
+Conys,
+ThLoue dels hall secan,
+And your dous, a hus a deperes wilives O'er prange
+He are her sheagh
+```
+
+*DNN suffer from optimisation problems by residual conn gradients flow DNN vanishing/exploding*
+
 
 
 
