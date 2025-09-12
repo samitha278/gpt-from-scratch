@@ -7,7 +7,7 @@ import torch.nn.functional as F
 # hyperpapameters 
 batch_size = 32
 block_size = 8
-learning_rate = 0.001
+lr = 0.001
 max_iter = 10000
 
 

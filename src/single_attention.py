@@ -10,7 +10,7 @@ eval_iters = 10000
 n_embd = 128
 head_size = 16
 max_iter  = 10000
-learning_rate = 1e-2
+lr = 1e-2
 
 
 
