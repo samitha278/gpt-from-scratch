@@ -148,9 +148,9 @@ class Block(nn.Module):
     
     def forward(self,x):
         
-        # added layer norm post
-        out = self.layer_norm1(self.heads(x)) + x  # residual conn
-        out = self.layer_norm2(self.mlp(out)) + out  # residual conn
+        # added pre layerNorms
+        out = self.heads(self.layer_norm1(x)) + x  # residual conn
+        out = self.mlp(self.layer_norm2(out)) + out  # residual conn
         
         return out 
         
