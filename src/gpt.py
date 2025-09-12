@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 #hyperparameters
 block_size = 16
@@ -57,6 +57,8 @@ def get_batch(split):
     x = torch.tensor([data[i:i+block_size] for i in idx])
     y = torch.tensor([data[i+1:block_size+1+i] for i in idx])
     
+    x,y = x.to(device) , y.to(device)
+    
     return x,y
 
 
@@ -76,7 +78,7 @@ class SaHead(nn.Module):
         
         self.value = nn.Linear(n_embd,head_size, bias = False)
         
-        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
+        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size,device=device)))
 
         self.dropout = nn.Dropout(dropout)
         
@@ -197,7 +199,7 @@ class GPTModel(nn.Module):
         B,T = input.shape
         
         token_embd = self.embd_table(input)
-        pos_embd = self.pos_embd_table(torch.arange(T))
+        pos_embd = self.pos_embd_table(torch.arange(T,device=device))
         
         x = token_embd+pos_embd
         
@@ -266,10 +268,11 @@ class GPTModel(nn.Module):
 
 
 model = GPTModel()
+model = model.to(device)
 model.train()
 
 
 
 # genarate from the model 
-context = torch.zeros((1,1),dtype=torch.long)
+context = torch.zeros((1,1),dtype=torch.long,device=device)
 print(decode(model.generate(context,max_token=100)[0].tolist()))
