@@ -17,6 +17,13 @@ Query = job description ("I'm looking for someone with these skills")
 dot(Query,Key) = how well the resume matches the job description
 ```
 
+## Transformer Architecture
+
+<p align="center">
+  <img src="images/transformer.png" alt="Neural architecture" width="400"/>
+</p>
+
+
 ## Implementation Progress
 
 ### Step 1: Bigram Language Model
