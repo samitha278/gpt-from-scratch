@@ -5,15 +5,16 @@ import torch.nn.functional as F
 
 
 #hyperparameters
-block_size = 8
+block_size = 16
 batch_size = 32
-n_embd = 64
+n_embd = 72
 num_heads = 4
+num_blocks = 4
 head_size = n_embd // num_heads
 eval_iter = 10000
 max_iter = 10000
 lr = 1e-3
-dropout = 0.1
+dropout = 0.16
 
 
 
@@ -91,12 +92,11 @@ class SaHead(nn.Module):
         weight = weight.masked_fill(self.tril[:T,:T]==0,float('-inf'))
         weight = F.softmax(weight,dim=-1)
         
+        weight = self.dropout(weight)
         value = self.value(x)
         
         out = weight @ value
 
-        out = self.dropout(out)    
-        
         return out
         
         
@@ -185,13 +185,8 @@ class GPTModel(nn.Module):
         self.embd_table = nn.Embedding(vocab_size,n_embd)
         self.pos_embd_table = nn.Embedding(block_size,n_embd)
         
-        self.block = nn.Sequential(
-            Block(num_heads,n_embd),
-            Block(num_heads,n_embd),
-            Block(num_heads,n_embd),
-            nn.LayerNorm(n_embd)
-        )
-        
+        self.block = nn.Sequential(*[Block(num_heads,n_embd) for i in range(num_blocks)])
+        self.ln = nn.LayerNorm(n_embd)
         self.lm_head = nn.Linear(n_embd,vocab_size)
         
         
@@ -207,7 +202,7 @@ class GPTModel(nn.Module):
         x = token_embd+pos_embd
         
         x = self.block(x) 
-        
+        x = self.ln(x)
         logits = self.lm_head(x)
         
         
