@@ -183,6 +183,15 @@ Bet'll mubterefe is gests
 
 *Improved by wrapping (multi head attention + mlp) with block*
 
+## Residual Connection
+
+
+<p align="center">
+  <img src="images/residual.png" alt="Neural architecture" width="200"/>
+</p>
+residual networks are easier to optimize, and can gain accuracy from
+considerably increased depth
+
 
 ### Step 6: Residual Connections
 **File:** `gpt.py`
