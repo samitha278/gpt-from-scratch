@@ -171,7 +171,8 @@ class GPTModel(nn.Module):
         self.block = nn.Sequential(
             Block(num_heads,n_embd),
             Block(num_heads,n_embd),
-            Block(num_heads,n_embd)
+            Block(num_heads,n_embd),
+            nn.LayerNorm(n_embd)
         )
         
         self.lm_head = nn.Linear(n_embd,vocab_size)
