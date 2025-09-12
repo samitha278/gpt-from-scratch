@@ -344,6 +344,7 @@ How, fittys', and your fidly, in beftend; wistreded,
 ## References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - The original Transformer paper
+- [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 - [Layer Normalization](https://arxiv.org/abs/1607.06450)
 - [On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745)
 - OpenAI GPT-2/3 architectures
