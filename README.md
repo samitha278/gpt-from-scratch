@@ -23,6 +23,10 @@ dot(Query,Key) = how well the resume matches the job description
   <img src="images/transformer.png" alt="Neural architecture" width="400"/>
 </p>
 
+## GPT architecture - Decorder only transformer
+<p align="center">
+  <img src="images/gpt.png" alt="Neural architecture" width="400"/>
+</p>
 
 ## Implementation Progress
 
